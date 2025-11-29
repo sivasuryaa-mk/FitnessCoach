@@ -1,9 +1,9 @@
-# Home Fitness Coach AI
+# AI Fitness Coach
 ## Project Report
 
 ---
 
-**Project Title:** Home Fitness Coach - AI-Powered Personal Trainer Chatbot
+**Project Title:** AI Fitness Coach - AI-Powered Personal Trainer Chatbot
 
 **Course:** UpGrad AI/ML Program - Build Your Own Project (BYOP)
 
@@ -29,7 +29,7 @@
 
 ## 1. Executive Summary
 
-**Home Fitness Coach** is an AI-powered conversational chatbot designed to provide personalized workout recommendations, exercise guidance, and nutrition advice for home fitness enthusiasts. The system leverages Google's Gemini 2.5 Flash model through the OpenAI-compatible API, combined with the Wger Workout Manager API for real-time exercise data.
+**AI Fitness Coach** is an AI-powered conversational chatbot designed to provide personalized workout recommendations, exercise guidance, and nutrition advice for fitness enthusiasts. The system leverages Google's Gemini 2.5 Flash model through the OpenAI-compatible API, combined with the Wger Workout Manager API for real-time exercise data.
 
 The chatbot employs a multi-layer architecture that:
 - Gathers comprehensive user fitness profiles through natural conversation
@@ -76,7 +76,7 @@ This project demonstrates the practical application of large language models (LL
 
 ### 3.1 Architecture Overview
 
-The Home Fitness Coach follows a **5-layer architecture** adapted from the ShopAssistAI reference project:
+The AI Fitness Coach follows a **5-layer architecture** adapted from the ShopAssistAI reference project:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -124,7 +124,6 @@ The Home Fitness Coach follows a **5-layer architecture** adapted from the ShopA
 │  • Handles follow-up Q&A                                     │
 └─────────────────────────────────────────────────────────────┘
 ```
-
 ### 3.2 User Profile Schema
 
 The system captures 8 key attributes to create a comprehensive fitness profile:
@@ -474,7 +473,7 @@ def evaluate_profile_extraction(expected, extracted):
 
 ## 10. Conclusion
 
-The **Home Fitness Coach** project successfully demonstrates the application of conversational AI in the health and fitness domain. By combining Gemini 2.5 Flash's natural language capabilities with rule-based exercise matching and external API integration, the system provides personalized, safe, and actionable fitness guidance.
+The **AI Fitness Coach** project successfully demonstrates the application of conversational AI in the health and fitness domain. By combining Gemini 2.5 Flash's natural language capabilities with rule-based exercise matching and external API integration, the system provides personalized, safe, and actionable fitness guidance.
 
 Key achievements:
 - ✅ Multi-layer conversational architecture
@@ -502,8 +501,8 @@ The project serves as a template for building domain-specific AI assistants that
 ## Appendix A: File Structure
 
 ```
-homeFitnessCoach/
-├── HomeFitnessCoach.ipynb    # Main implementation notebook
+FitnessCoach/
+├── HomeFitnessCoach.ipynb    # Main implementation notebook (AI Fitness Coach)
 ├── Project_Report.pdf         # This report (converted)
 ├── api_key.txt               # Gemini API key (user-provided)
 └── exercise_cache.csv        # Cached exercise data
