@@ -14,7 +14,7 @@ An AI-powered personal trainer chatbot that provides personalized workout plans 
 
 The AI Fitness Coach follows a 5-layer architecture:
 
-<img width="1024" height="559" alt="image" src="https://github.com/user-attachments/assets/26b1e591-11f5-4927-8c9b-65c5d35e0d05" />
+<img width="1024" height="559" alt="image" src="https://github.com/user-attachments/assets/2b303951-d60b-4c0c-9b22-e5270956f956" />
 
 
 
