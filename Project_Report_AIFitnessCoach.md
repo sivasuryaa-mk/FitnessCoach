@@ -103,8 +103,8 @@ The AI Fitness Coach follows a **5-layer architecture** adapted from the ShopAss
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            LAYER 3: WORKOUT MAPPING                          │
-│  • Fetches exercises from Wger API                           │
-│  • Caches data locally                                       │
+│  • Fetches exercises dynamically from Wger API               │
+│  • Filters by user's goal and equipment                      │
 │  • Maps exercises to muscle groups                           │
 └─────────────────────────────────────────────────────────────┘
                               │
@@ -145,7 +145,7 @@ The system captures 8 key attributes to create a comprehensive fitness profile:
 
 1. **User Input** → Moderation Check → Intent Clarity Layer
 2. **Profile Questions** → User Responses → Intent Confirmation
-3. **Complete Profile** → Wger API Query → Exercise Database
+3. **Complete Profile** → Dynamic Wger API Query (filtered by goal/equipment) → Relevant Exercises
 4. **Exercise List** → Scoring Algorithm → Top Matches
 5. **Matched Exercises** → LLM Generation → Workout Plan
 6. **Follow-up Questions** → Recommendation Layer → Responses
@@ -154,7 +154,7 @@ The system captures 8 key attributes to create a comprehensive fitness profile:
 
 | Component | Technology | Rationale |
 |-----------|------------|-----------|
-| LLM | Gemini 2.5 Flash | Latest Google model with strong reasoning |
+| LLM | Gemini 2.5 Flash | Google's latest model with strong reasoning |
 | API Interface | OpenAI SDK | Familiar patterns, easy migration |
 | Exercise Data | Wger API | Free, comprehensive, no auth required |
 | Language | Python 3.x | Industry standard for AI/ML |
@@ -206,12 +206,12 @@ def get_chat_completions(messages, temperature=0.3):
 ```python
 def moderation_check(user_input):
     """
-    Uses LLM to evaluate content for:
-    - Hate speech, violence, explicit content
-    - Self-harm promotion
-    - Dangerous medical advice requests
-    Returns: 'Flagged' or 'Not Flagged'
+    Uses Gemini to classify content for safety labels:
+    - harassment, hate, sexual, violence, self-harm
+    Returns: 'Flagged' if any risky label is true, 'Not Flagged' otherwise
     """
+    # Calls Gemini with safety classification prompt
+    # Parses JSON response and checks for flagged labels
 ```
 
 #### 4.1.4 Exercise Scoring Algorithm
@@ -243,24 +243,31 @@ def score_exercise(exercise, user_profile):
 
 - **Base URL**: `https://wger.de/api/v2`
 - **Endpoints Used**:
-  - `/exerciseinfo/` - Exercise details with muscles and equipment
+  - `/exerciseinfo/` - Exercise details with muscles and equipment (supports filtering)
 - **No Authentication Required** for basic endpoints
+- **Dynamic Fetching**: Exercises are fetched on-demand based on user profile
 - **Rate Limiting**: Handled with timeout and fallback
 
 ```python
-def fetch_exercises_from_api(language=2, limit=100):
-    url = f"{WGER_BASE_URL}/exerciseinfo/?language={language}&limit={limit}"
-    response = requests.get(url, timeout=10)
-    # Parse and structure exercise data
+def fetch_exercises_for_user(user_profile, language=2, limit=50):
+    # Get target muscle groups based on user's goal
+    target_muscles = GOAL_MUSCLE_MAP.get(user_profile['primary_goal'], [])
+    url = f"{WGER_BASE_URL}/exerciseinfo/?limit={limit}"
+    # Add muscle filters based on user's goal
+    for muscle_id in target_muscles[:3]:
+        url += f"&muscles={muscle_id}"
+    # Filter results by equipment compatibility
 ```
 
 #### Fallback Database
 
-25 curated exercises covering:
-- Bodyweight exercises (10)
-- Basic equipment exercises (6)
-- Yoga/flexibility exercises (4)
-- Advanced/HIIT exercises (5)
+15 curated exercises covering:
+- Bodyweight exercises (push-ups, squats, planks, lunges, burpees, etc.)
+- Basic equipment exercises (dumbbell rows, shoulder press)
+- Yoga/flexibility exercises (child's pose, downward dog, cat-cow)
+- Cardio/HIIT exercises (jumping jacks, mountain climbers, high knees)
+
+When the API is unavailable, fallback exercises are filtered based on the user's goal and equipment availability.
 
 ### 4.3 Nutrition Integration
 
@@ -351,8 +358,9 @@ def extract_dictionary_from_string(string):
 
 **Solution**: 
 - Implemented 10-second timeout
-- Created comprehensive fallback database
-- Added CSV caching for successful API calls
+- Created comprehensive fallback database with 15 curated exercises
+- Fallback exercises are filtered based on user profile (goal and equipment)
+- Dynamic fetching with API filters reduces irrelevant data transfer
 
 ### 6.4 Conversation Naturalness vs. Data Collection
 
@@ -502,10 +510,10 @@ The project serves as a template for building domain-specific AI assistants that
 
 ```
 FitnessCoach/
-├── HomeFitnessCoach.ipynb    # Main implementation notebook (AI Fitness Coach)
+├── AIFitnessCoach.ipynb      # Main implementation notebook
 ├── Project_Report.pdf         # This report (converted)
-├── api_key.txt               # Gemini API key (user-provided)
-└── exercise_cache.csv        # Cached exercise data
+├── README.md                  # Quick start guide
+└── api_key.txt               # Gemini API key (user-provided)
 ```
 
 ## Appendix B: How to Run

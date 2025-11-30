@@ -22,7 +22,7 @@ The AI Fitness Coach follows a 5-layer architecture:
 |-------|---------|
 | **Layer 1: Intent Clarity** | Welcomes user, asks profiling questions, uses chain-of-thought prompting |
 | **Layer 2: Intent Confirmation** | Validates profile completeness, extracts dictionary, applies moderation |
-| **Layer 3: Workout Mapping** | Fetches exercises from Wger API, caches data, maps to muscle groups |
+| **Layer 3: Workout Mapping** | Fetches exercises dynamically from Wger API based on user profile, maps to muscle groups |
 | **Layer 4: Fitness Matching** | Scores exercises against user profile, filters by equipment/limitations |
 | **Layer 5: Recommendation** | Generates workout plans, provides nutrition guidance, handles Q&A |
 
@@ -35,6 +35,6 @@ The AI Fitness Coach follows a 5-layer architecture:
 
 ## Tech Stack
 
-- **LLM**: Google Gemini 2.0 Flash (via OpenAI-compatible API)
+- **LLM**: Google Gemini 2.5 Flash (via OpenAI-compatible API)
 - **Exercise Data**: Wger Workout Manager API
 - **Language**: Python 3.x / Jupyter Notebook
